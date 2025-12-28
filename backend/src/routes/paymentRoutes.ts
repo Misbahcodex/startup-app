@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/auth';
 import { mpesaService } from '../services/mpesaService';
-import { smsService } from '../services/smsService';
+import { sendSMS } from '../services/smsService';
 import { prisma } from '../config/database';
 import { io } from '../index';
 
@@ -40,15 +40,15 @@ router.post('/initiate-stk', authenticate, async (req, res) => {
       phoneNumber,
       amount,
       transactionId,
-      req.user?.name || 'Buyer'
+      'Buyer'
     );
 
-    // Store checkout request ID
+    // Store checkout request ID in paymentReference temporarily
     await prisma.transaction.update({
       where: { id: transactionId },
       data: {
-        checkoutRequestId: stkResponse.CheckoutRequestID,
-        status: 'PAYMENT_PENDING',
+        paymentReference: stkResponse.CheckoutRequestID,
+        status: 'PROCESSING',
       },
     });
 
@@ -84,9 +84,9 @@ router.post('/mpesa-callback', async (req, res) => {
 
     const { ResultCode, CheckoutRequestID, CallbackMetadata } = Body.stkCallback;
 
-    // Find transaction by checkout request ID
+    // Find transaction by checkout request ID (stored in paymentReference)
     const transaction = await prisma.transaction.findFirst({
-      where: { checkoutRequestId: CheckoutRequestID },
+      where: { paymentReference: CheckoutRequestID },
       include: { buyer: true, seller: true },
     });
 
@@ -104,20 +104,18 @@ router.post('/mpesa-callback', async (req, res) => {
       await prisma.transaction.update({
         where: { id: transaction.id },
         data: {
-          status: 'PAYMENT_CONFIRMED',
-          mpesaReceiptNumber: mpesaCode,
-          paidAmount: amount,
+          status: 'PAID',
+          paymentReference: mpesaCode,
           paidAt: new Date(),
         },
       });
 
       // Send SMS to seller - funds secured
-      if (transaction.seller?.phone) {
-        await smsService.sendPaymentConfirmationSMS(
-          transaction.seller.phone,
-          amount,
-          transaction.buyer?.name || 'Buyer'
-        );
+      if (transaction.seller) {
+        const seller = await prisma.user.findUnique({ where: { id: transaction.sellerId } });
+        if (seller?.phone) {
+          await sendSMS(seller.phone, `KES ${amount} payment secured for order ${transaction.id}. Ready to ship!`);
+        }
       }
 
       // Emit WebSocket notification
@@ -134,7 +132,7 @@ router.post('/mpesa-callback', async (req, res) => {
       // Payment failed
       await prisma.transaction.update({
         where: { id: transaction.id },
-        data: { status: 'PAYMENT_FAILED' },
+        data: { status: 'CANCELLED' },
       });
 
       console.log('❌ Payment failed for transaction:', transaction.id);
@@ -178,9 +176,15 @@ router.post('/confirm-delivery', authenticate, async (req, res) => {
       return res.status(401).json({ success: false, error: 'Invalid OTP' });
     }
 
+    // Get seller phone
+    const seller = await prisma.user.findUnique({ where: { id: transaction.sellerId } });
+    if (!seller?.phone) {
+      return res.status(400).json({ success: false, error: 'Seller phone not found' });
+    }
+
     // Release funds via B2C
     const b2cResponse = await mpesaService.releaseSellerFunds(
-      transaction.seller!.phone,
+      seller.phone,
       transaction.amount,
       transactionId
     );
@@ -191,14 +195,12 @@ router.post('/confirm-delivery', authenticate, async (req, res) => {
       data: {
         status: 'COMPLETED',
         completedAt: new Date(),
-        b2cRequestId: b2cResponse.ConversationID,
+        paymentReference: b2cResponse.ConversationID,
       },
     });
 
     // Send SMS to seller - funds released
-    if (transaction.seller?.phone) {
-      await smsService.sendPaymentReleasedSMS(transaction.seller.phone, transaction.amount);
-    }
+    await sendSMS(seller.phone, `KES ${transaction.amount} has been released to your M-Pesa account`);
 
     // Emit WebSocket notification
     io.to(`user:${transaction.sellerId}`).emit('notification:new', {

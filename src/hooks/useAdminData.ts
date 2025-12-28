@@ -68,10 +68,10 @@ export function useAdminData() {
         api.request('/api/v1/admin/users?page=1&limit=20'),
       ]);
 
-      if (metricsRes.success && metricsRes.data) setMetrics(metricsRes.data);
-      if (transactionsRes.success && transactionsRes.data) setTransactions(transactionsRes.data);
-      if (disputesRes.success && disputesRes.data) setDisputes(disputesRes.data);
-      if (usersRes.success && usersRes.data) setUsers(usersRes.data);
+      if (metricsRes.success && metricsRes.data) setMetrics(metricsRes.data as DashboardMetrics);
+      if (transactionsRes.success && transactionsRes.data) setTransactions(Array.isArray(transactionsRes.data) ? transactionsRes.data : []);
+      if (disputesRes.success && disputesRes.data) setDisputes(Array.isArray(disputesRes.data) ? disputesRes.data : []);
+      if (usersRes.success && usersRes.data) setUsers(Array.isArray(usersRes.data) ? usersRes.data : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch admin data');
     } finally {

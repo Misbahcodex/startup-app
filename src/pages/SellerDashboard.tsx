@@ -32,13 +32,6 @@ interface Transaction {
   date: string;
 }
 
-interface SocialLink {
-  icon: string;
-  name: string;
-  handle: string;
-  followers: string;
-  connected: boolean;
-}
 
 interface WalletData {
   available: number;
@@ -63,12 +56,6 @@ export function SellerDashboard() {
   // Empty data states - ready for API integration
   const [orders] = useState<Order[]>([]);
   const [transactions] = useState<Transaction[]>([]);
-  const [socialLinks] = useState<SocialLink[]>([
-    { icon: '📸', name: 'Instagram', handle: '', followers: '', connected: false },
-    { icon: '💬', name: 'WhatsApp Business', handle: '', followers: '', connected: false },
-    { icon: '👍', name: 'Facebook Marketplace', handle: '', followers: '', connected: false },
-    { icon: '📌', name: 'TikTok Shop', handle: 'Coming Soon', followers: '', connected: false },
-  ]);
   const [wallet] = useState<WalletData>({ available: 0, pending: 0, total: 0 });
   const [profile] = useState<SellerProfile>({ name: 'Seller', verified: false, memberSince: '', isActive: false });
 
@@ -302,7 +289,6 @@ export function SellerDashboard() {
 
   // WALLET TAB
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
-  const [paymentMethodsLoading, setPaymentMethodsLoading] = useState(false);
   const [showAddPayoutMethod, setShowAddPayoutMethod] = useState(false);
   const [payoutForm, setPayoutForm] = useState({
     type: 'MOBILE_MONEY',
@@ -315,12 +301,10 @@ export function SellerDashboard() {
   useEffect(() => {
     async function loadPaymentMethods() {
       if (activeTab === 'wallet') {
-        setPaymentMethodsLoading(true);
         const res = await api.getPaymentMethods();
         if (res.success && res.data) {
           setPaymentMethods(Array.isArray(res.data) ? res.data : []);
         }
-        setPaymentMethodsLoading(false);
       }
     }
     loadPaymentMethods();
@@ -517,19 +501,19 @@ export function SellerDashboard() {
               return (
                 <div key={idx} className="p-4 bg-gray-50 rounded-null-lg border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-null-full ${tx.type === 'deposit' ? 'bg-green-100' : 'bg-red-100'}`}>
-                        {tx.type === 'deposit' ? (
-                          <ArrowDownLeft className="text-green-600" size={20} />
-                        ) : (
-                          <ArrowUpRight className="text-red-600" size={20} />
-                        )}
-                      </div>
-                      <div>
+                <div className="flex items-center gap-4">
+                  <div className={`p-3 rounded-null-full ${tx.type === 'deposit' ? 'bg-green-100' : 'bg-red-100'}`}>
+                    {tx.type === 'deposit' ? (
+                      <ArrowDownLeft className="text-green-600" size={20} />
+                    ) : (
+                      <ArrowUpRight className="text-red-600" size={20} />
+                    )}
+                  </div>
+                  <div>
                         <p className="font-semibold">{tx.desc || tx.itemName || 'Transaction'}</p>
                         <p className="text-sm text-gray-600">{tx.date || new Date(tx.createdAt || Date.now()).toLocaleDateString()}</p>
-                      </div>
-                    </div>
+                  </div>
+                </div>
                     <div className="text-right">
                       {hasFeeBreakdown ? (
                         <div>
@@ -537,11 +521,11 @@ export function SellerDashboard() {
                           <p className="text-xs text-gray-500">Net (after fees)</p>
                         </div>
                       ) : (
-                        <p className={`text-xl font-bold ${tx.type === 'deposit' ? 'text-green-600' : 'text-red-600'}`}>
-                          {tx.type === 'deposit' ? '+' : '-'}KES {tx.amount.toLocaleString()}
-                        </p>
+                <p className={`text-xl font-bold ${tx.type === 'deposit' ? 'text-green-600' : 'text-red-600'}`}>
+                  {tx.type === 'deposit' ? '+' : '-'}KES {tx.amount.toLocaleString()}
+                </p>
                       )}
-                    </div>
+              </div>
                   </div>
                   {hasFeeBreakdown && (
                     <div className="mt-3 pt-3 border-t border-gray-200 text-xs text-gray-600 space-y-1">
@@ -640,17 +624,17 @@ export function SellerDashboard() {
     ];
 
     return (
-      <div className="space-y-6">
+    <div className="space-y-6">
         <h2 className="text-2xl font-bold">📱 Social Media Connections</h2>
         <p className="text-gray-600">Connect your social pages to automatically import products via AI.</p>
 
-        <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
           {platforms.map((platform) => {
             const connected = socialAccounts.find(acc => acc.platform === platform.key);
             return (
               <div key={platform.key} className={`rounded-null-xl p-6 border-2 ${connected ? 'bg-green-50 border-green-300' : 'bg-gray-50 border-gray-300'}`}>
-                <div className="flex justify-between items-start mb-4">
-                  <div>
+            <div className="flex justify-between items-start mb-4">
+              <div>
                     <p className="text-3xl mb-2">{platform.icon}</p>
                     <p className="font-bold text-lg">{platform.name}</p>
                     {connected ? (
@@ -658,9 +642,9 @@ export function SellerDashboard() {
                     ) : (
                       <p className="text-sm text-gray-600">Not Connected</p>
                     )}
-                  </div>
+              </div>
                   {connected && <span className="px-3 py-1 bg-green-200 text-green-800 rounded-null-full text-xs font-bold">✓ Connected</span>}
-                </div>
+            </div>
                 {connected ? (
                   <div className="space-y-2">
                     <button
@@ -668,7 +652,7 @@ export function SellerDashboard() {
                       className="w-full bg-blue-600 text-white py-2 rounded-null-lg hover:bg-blue-700 transition text-sm font-semibold"
                     >
                       Rescan Now
-                    </button>
+                  </button>
                     <p className="text-xs text-gray-500 text-center">
                       Last scanned: {connected.lastScannedAt ? new Date(connected.lastScannedAt).toLocaleDateString() : 'Never'}
                     </p>
@@ -688,16 +672,16 @@ export function SellerDashboard() {
                       className="w-full bg-blue-600 text-white py-2 rounded-null-lg hover:bg-blue-700 transition font-semibold disabled:opacity-50"
                     >
                       {connectingPlatform === platform.key ? 'Connecting...' : 'Connect'}
-                    </button>
+                </button>
                   </div>
-                )}
-              </div>
+              )}
+            </div>
             );
           })}
-        </div>
+      </div>
 
-        {/* Create Payment Link */}
-        <div className="bg-white rounded-null-xl border border-gray-200 p-8">
+      {/* Create Payment Link */}
+      <div className="bg-white rounded-null-xl border border-gray-200 p-8">
         <h3 className="text-2xl font-bold mb-6">🔗 Create Payment Link</h3>
         <div className="space-y-4">
           <input
@@ -729,9 +713,9 @@ export function SellerDashboard() {
             Generate Payment Link
           </button>
         </div>
-        </div>
       </div>
-    );
+    </div>
+  );
   };
 
   // STORE SETTINGS TAB
@@ -774,8 +758,8 @@ export function SellerDashboard() {
     }
 
     return (
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold">🏬 Store Settings</h2>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">🏬 Store Settings</h2>
 
         {/* Store Logo */}
         <div className="bg-white rounded-null-xl border border-gray-200 p-6">
@@ -806,9 +790,9 @@ export function SellerDashboard() {
         </div>
 
         {/* Store Details */}
-        <div className="bg-white rounded-null-xl border border-gray-200 p-6 space-y-4">
+      <div className="bg-white rounded-null-xl border border-gray-200 p-6 space-y-4">
           <h3 className="font-bold mb-4">Store Information</h3>
-          <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Store Name *</label>
               <input
@@ -818,7 +802,7 @@ export function SellerDashboard() {
                 className="w-full px-4 py-3 rounded-null-lg border border-gray-300 focus:outline-none focus:border-blue-500"
                 placeholder="My Awesome Store"
               />
-            </div>
+        </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Store Slug (URL) *</label>
               <input
@@ -846,7 +830,7 @@ export function SellerDashboard() {
               {storeError}
             </div>
           )}
-          <div className="flex gap-3">
+        <div className="flex gap-3">
             <button
               onClick={handleSaveStore}
               disabled={storeSaving}
@@ -862,8 +846,8 @@ export function SellerDashboard() {
             >
               Preview Store
             </a>
-          </div>
         </div>
+      </div>
 
         {/* Visibility Settings */}
         <div className="bg-white rounded-null-xl border border-gray-200 p-6">
@@ -901,8 +885,8 @@ export function SellerDashboard() {
         </div>
 
         {/* Store Status */}
-        <div className="bg-white rounded-null-xl border border-gray-200 p-6">
-          <h3 className="font-bold mb-3">Store Status</h3>
+      <div className="bg-white rounded-null-xl border border-gray-200 p-6">
+        <h3 className="font-bold mb-3">Store Status</h3>
           <div className="flex items-center gap-3 mb-4">
             <span className={`px-3 py-1 rounded-null-full text-sm font-bold ${
               storeData.status === 'ACTIVE' ? 'bg-green-100 text-green-800' :
@@ -944,13 +928,13 @@ export function SellerDashboard() {
                 Deactivate Store
               </button>
             )}
-          </div>
         </div>
+      </div>
 
         {/* Rescan Content */}
-        <div className="bg-white rounded-null-xl border border-gray-200 p-6">
-          <h3 className="font-bold mb-3">Rescan Content</h3>
-          <p className="text-sm text-gray-600 mb-3">Trigger a rescan to refresh storefront and social content.</p>
+      <div className="bg-white rounded-null-xl border border-gray-200 p-6">
+        <h3 className="font-bold mb-3">Rescan Content</h3>
+        <p className="text-sm text-gray-600 mb-3">Trigger a rescan to refresh storefront and social content.</p>
           <button
             onClick={async () => {
               const res = await api.triggerStoreRescan();
@@ -964,9 +948,9 @@ export function SellerDashboard() {
           >
             Trigger Rescan
           </button>
-        </div>
       </div>
-    );
+    </div>
+  );
   };
 
   // AI DRAFTS TAB
@@ -1098,13 +1082,13 @@ export function SellerDashboard() {
     }
 
     return (
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold">🧠 AI Draft Products</h2>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">🧠 AI Draft Products</h2>
         {drafts.length === 0 ? (
           <div className="bg-white rounded-null-xl border border-gray-200 p-8 text-center">
             <p className="text-gray-600 mb-2">No drafts yet.</p>
             <p className="text-sm text-gray-500">Connect social pages to generate AI drafts from your posts.</p>
-          </div>
+              </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {drafts.map((draft) => {
@@ -1123,7 +1107,7 @@ export function SellerDashboard() {
                         'bg-red-100 text-red-800'
                       }`}>
                         AI: {Math.round(confidenceScore * 100)}%
-                      </div>
+            </div>
                     </div>
                   )}
                   
@@ -1149,7 +1133,7 @@ export function SellerDashboard() {
                               <li key={i}>{w}</li>
                             ))}
                           </ul>
-                        </div>
+        </div>
                       )}
                       {hasMissingFields && (
                         <div className="bg-orange-50 border border-orange-200 rounded p-2">
@@ -1173,9 +1157,9 @@ export function SellerDashboard() {
                     >
                       Publish
                     </button>
-                  </div>
-                </div>
-              );
+      </div>
+    </div>
+  );
             })}
           </div>
         )}
@@ -1222,8 +1206,8 @@ export function SellerDashboard() {
     }
 
     return (
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold">✅ Published Products</h2>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">✅ Published Products</h2>
         {publishedProducts.length === 0 ? (
           <div className="bg-white rounded-null-xl border border-gray-200 p-8 text-center">
             <p className="text-gray-600">No published products yet.</p>
@@ -1243,7 +1227,7 @@ export function SellerDashboard() {
                 {product.description && (
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">{product.description}</p>
                 )}
-                <div className="flex gap-2">
+            <div className="flex gap-2">
                   <a
                     href={`/store/${storeData?.slug || 'your-store'}/product/${product.id}`}
                     target="_blank"
@@ -1258,13 +1242,13 @@ export function SellerDashboard() {
                   >
                     Archive
                   </button>
-                </div>
-              </div>
-            ))}
+            </div>
           </div>
-        )}
+        ))}
       </div>
-    );
+        )}
+    </div>
+  );
   };
 
   // SYNC LOGS TAB
@@ -1296,9 +1280,9 @@ export function SellerDashboard() {
     }
 
     return (
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">🪵 Sync Logs</h2>
+      <h2 className="text-2xl font-bold">🪵 Sync Logs</h2>
           <button
             onClick={async () => {
               const res = await api.triggerStoreRescan();
@@ -1323,8 +1307,8 @@ export function SellerDashboard() {
             <p className="text-sm text-gray-500 mt-2">Sync logs will appear here after you connect social pages and scans run.</p>
           </div>
         ) : (
-          <div className="bg-white rounded-null-xl border border-gray-200 p-6">
-            <div className="space-y-3">
+      <div className="bg-white rounded-null-xl border border-gray-200 p-6">
+        <div className="space-y-3">
               {syncLogs.map((log: any, idx: number) => (
                 <div key={log.id || idx} className="p-4 rounded-null-lg bg-gray-50 border border-gray-200">
                   <div className="flex items-start justify-between mb-2">
@@ -1338,7 +1322,7 @@ export function SellerDashboard() {
                           {log.newCount > 0 && <span className="text-green-600">+{log.newCount} new</span>}
                           {log.updatedCount > 0 && <span className="text-blue-600">~{log.updatedCount} updated</span>}
                           {log.archivedCount > 0 && <span className="text-red-600">-{log.archivedCount} archived</span>}
-                        </div>
+              </div>
                       )}
                     </div>
                     <span className={`px-3 py-1 rounded-null-full text-xs font-bold ${
@@ -1350,13 +1334,13 @@ export function SellerDashboard() {
                       {log.status || 'UNKNOWN'}
                     </span>
                   </div>
-                </div>
-              ))}
             </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
-    );
+        )}
+    </div>
+  );
   };
 
   // SETTINGS TAB

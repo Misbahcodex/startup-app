@@ -132,8 +132,8 @@ class WebSocketManager {
     }
 
     const payload = JSON.stringify({
-      type: 'notification',
       ...notification,
+      type: 'notification',
     });
 
     userClients.forEach((client) => {
@@ -151,8 +151,8 @@ class WebSocketManager {
    */
   broadcast(notification: NotificationPayload, excludeUserId?: string) {
     const payload = JSON.stringify({
-      type: 'notification',
       ...notification,
+      type: 'notification',
     });
 
     this.clients.forEach((clients, userId) => {

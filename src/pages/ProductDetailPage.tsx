@@ -101,12 +101,12 @@ export function ProductDetailPage() {
               </div>
             ) : product.price ? (
               <>
-                <button
+            <button
                   className="w-full px-4 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition"
                   onClick={() => setCheckoutOpen(true)}
-                >
+            >
                   Buy Now - {(product as any).currency || 'KES'} {product.price.toLocaleString()}
-                </button>
+            </button>
                 <p className="text-sm text-gray-600 text-center">
                   Secure checkout • No account required
                 </p>

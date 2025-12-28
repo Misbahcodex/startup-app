@@ -31,7 +31,7 @@ class JWTService {
   ): Promise<TokenPair> {
     // Generate access token (short-lived)
     const accessToken = jwt.sign(payload, this.ACCESS_SECRET, {
-      expiresIn: this.ACCESS_EXPIRY,
+      expiresIn: this.ACCESS_EXPIRY as string,
       issuer: 'swiftline-api',
       audience: 'swiftline-client',
     });
@@ -43,7 +43,7 @@ class JWTService {
     };
 
     const refreshToken = jwt.sign(refreshTokenPayload, this.REFRESH_SECRET, {
-      expiresIn: this.REFRESH_EXPIRY,
+      expiresIn: this.REFRESH_EXPIRY as string,
       issuer: 'swiftline-api',
       audience: 'swiftline-client',
     });
@@ -170,7 +170,7 @@ class JWTService {
         },
         this.ACCESS_SECRET,
         {
-          expiresIn: this.ACCESS_EXPIRY,
+          expiresIn: this.ACCESS_EXPIRY as string,
           issuer: 'swiftline-api',
           audience: 'swiftline-client',
         }
@@ -193,7 +193,6 @@ class JWTService {
       where: { token },
       data: {
         isRevoked: true,
-        revokedAt: new Date(),
       },
     });
   }
@@ -209,7 +208,6 @@ class JWTService {
       },
       data: {
         isRevoked: true,
-        revokedAt: new Date(),
       },
     });
   }
@@ -224,7 +222,6 @@ class JWTService {
           { expiresAt: { lt: new Date() } },
           {
             isRevoked: true,
-            revokedAt: { lt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }, // 30 days old
           },
         ],
       },
@@ -266,7 +263,6 @@ class JWTService {
       },
       data: {
         isRevoked: true,
-        revokedAt: new Date(),
       },
     });
   }

@@ -1,7 +1,7 @@
 import { prisma } from '../config/database';
 import { scanStore } from './socialScanService';
 
-let intervalHandle: NodeJS.Timer | null = null;
+let intervalHandle: NodeJS.Timeout | null = null;
 
 export function startSyncScheduler() {
   // Run every 10 minutes in development; adjust via env in production
