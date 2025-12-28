@@ -31,10 +31,10 @@ class JWTService {
   ): Promise<TokenPair> {
     // Generate access token (short-lived)
     const accessToken = jwt.sign(payload, this.ACCESS_SECRET, {
-      expiresIn: this.ACCESS_EXPIRY as string,
+      expiresIn: this.ACCESS_EXPIRY,
       issuer: 'swiftline-api',
       audience: 'swiftline-client',
-    });
+    } as jwt.SignOptions);
 
     // Generate refresh token (long-lived)
     const refreshTokenPayload = {
@@ -43,10 +43,10 @@ class JWTService {
     };
 
     const refreshToken = jwt.sign(refreshTokenPayload, this.REFRESH_SECRET, {
-      expiresIn: this.REFRESH_EXPIRY as string,
+      expiresIn: this.REFRESH_EXPIRY,
       issuer: 'swiftline-api',
       audience: 'swiftline-client',
-    });
+    } as jwt.SignOptions);
 
     // Store refresh token in database
     const expiresAt = new Date();
@@ -170,10 +170,10 @@ class JWTService {
         },
         this.ACCESS_SECRET,
         {
-          expiresIn: this.ACCESS_EXPIRY as string,
+          expiresIn: this.ACCESS_EXPIRY,
           issuer: 'swiftline-api',
           audience: 'swiftline-client',
-        }
+        } as jwt.SignOptions
       );
 
       return {

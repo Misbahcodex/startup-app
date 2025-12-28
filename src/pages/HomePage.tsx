@@ -63,42 +63,45 @@ export function HomePage() {
 
           {/* Main Headline */}
           <h1 className="text-7xl md:text-8xl font-black mb-8 leading-tight">
-            <span className="text-white">Buy & Sell </span>
-            <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-600 bg-clip-text text-transparent">Fearlessly</span>
+            <span className="text-white">AI-Powered </span>
+            <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-600 bg-clip-text text-transparent">Social Storefront</span>
             <br />
-            <span className="text-white">on Social Media</span>
+            <span className="text-white">for Africa</span>
           </h1>
 
           {/* Sub Headline */}
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-            Your money stays locked in escrow. Releases only when both sides are happy.
-            <span className="text-green-400 font-semibold"> Zero scams. Zero stress.</span>
+            Connect your Instagram or Facebook. AI creates your store automatically.
+            <span className="text-green-400 font-semibold"> One link. Zero coding. Start selling in minutes.</span>
           </p>
 
           {/* CTA Buttons - Premium Design */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <button
-              onClick={() => window.location.href = '/login'}
+              onClick={() => window.location.href = '/signup'}
               className="group relative px-10 py-5 rounded-null-xl text-lg font-bold overflow-hidden bg-gradient-to-r from-green-400 to-emerald-600 text-black shadow-2xl shadow-green-500/50 hover:shadow-green-500/80 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
             >
               <span className="relative flex items-center justify-center gap-3">
-                Create Payment Link
+                Start Your Store
                 <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform duration-300" />
               </span>
             </button>
 
-            <button className="group px-10 py-5 rounded-null-xl text-lg font-bold border-2 border-green-400/50 text-white hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 backdrop-blur-md transform hover:scale-105 hover:-translate-y-1">
-              Watch Demo (90s)
+            <button 
+              onClick={() => window.location.href = '/login'}
+              className="group px-10 py-5 rounded-null-xl text-lg font-bold border-2 border-green-400/50 text-white hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 backdrop-blur-md transform hover:scale-105 hover:-translate-y-1"
+            >
+              Login to Dashboard
             </button>
           </div>
 
           {/* Trust Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
             {[
-              { value: '$2.5M+', label: 'In Secure Escrow', icon: '💰' },
-              { value: '10K+', label: 'Happy Users', icon: '😊' },
-              { value: '99.9%', label: 'Uptime', icon: '⚡' },
-              { value: '0', label: 'Scams Reported', icon: '🛡️' },
+              { value: 'AI-Powered', label: 'Auto Store Creation', icon: '🤖' },
+              { value: '1 Link', label: 'Permanent Store URL', icon: '🔗' },
+              { value: '0 Login', label: 'Guest Checkout', icon: '👤' },
+              { value: 'M-Pesa', label: 'Africa-First Payments', icon: '📱' },
             ].map((metric, idx) => (
               <div key={idx} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-null-xl p-6 hover:border-green-400/50 transition-all duration-300 group cursor-pointer hover:bg-white/10">
                 <p className="text-2xl mb-2">{metric.icon}</p>
@@ -118,16 +121,16 @@ export function HomePage() {
               <span className="text-white">How It </span>
               <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Works</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">Complete transaction in 4 simple steps. Zero complications.</p>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">From social posts to storefront in minutes. AI-powered. Zero coding.</p>
           </div>
 
           {/* Steps with Animation */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
             {[
-              { num: '01', icon: Smartphone, title: 'Share Link', desc: 'Send payment link via WhatsApp, Instagram, or Facebook' },
-              { num: '02', icon: Lock, title: 'Money Locked', desc: 'Funds secured instantly in escrow, not with seller' },
-              { num: '03', icon: TrendingUp, title: 'Get Proof', desc: 'Seller delivers, you verify tracking & photos' },
-              { num: '04', icon: Check, title: 'Release & Get', desc: 'Confirm receipt → money instantly to seller\'s M-Pesa' },
+              { num: '01', icon: Smartphone, title: 'Connect Social', desc: 'Link your Instagram or Facebook page. AI scans your posts automatically.' },
+              { num: '02', icon: Sparkles, title: 'AI Creates Store', desc: 'Products extracted as drafts. Review, edit, and publish to your store.' },
+              { num: '03', icon: Lock, title: 'Share Store Link', desc: 'One permanent link. Buyers browse and checkout without login.' },
+              { num: '04', icon: Check, title: 'Secure Payment', desc: 'M-Pesa/Mobile Money. Funds in escrow until delivery confirmed.' },
             ].map((step, idx) => {
               const Icon = step.icon;
               return (
@@ -156,10 +159,10 @@ export function HomePage() {
       <section className="relative py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-5xl md:text-6xl font-black text-center mb-4">
-            <span className="text-white">Built for </span>
-            <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Everyone</span>
+            <span className="text-white">Perfect for </span>
+            <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Social Sellers</span>
           </h2>
-          <p className="text-center text-gray-400 text-xl mb-20 max-w-2xl mx-auto">Whether you're buying or selling, we've got your back.</p>
+          <p className="text-center text-gray-400 text-xl mb-20 max-w-2xl mx-auto">No website. No coding. Just connect your social page and start selling.</p>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Buyers */}
@@ -172,11 +175,11 @@ export function HomePage() {
                 <h3 className="text-3xl font-bold text-white mb-8">For Buyers</h3>
                 <ul className="space-y-4 mb-8">
                   {[
-                    'Money locked until you confirm delivery',
-                    'Auto-refund if seller goes dark',
-                    '24/7 dispute support team',
-                    'Real-time tracking & notifications',
-                    'Buy from anyone, anywhere safely'
+                    'Browse products without creating account',
+                    'Checkout as guest - no login required',
+                    'Money locked in escrow until delivery',
+                    'Pay via M-Pesa, Mobile Money, or Card',
+                    'Auto-refund if seller goes dark'
                   ].map((feature, idx) => (
                     <li key={idx} className="flex gap-4 items-start">
                       <div className="w-6 h-6 bg-green-400 rounded-null-full flex items-center justify-center mt-1 flex-shrink-0 shadow-lg shadow-green-500/50">
@@ -205,11 +208,11 @@ export function HomePage() {
                 <h3 className="text-3xl font-bold text-white mb-8">For Sellers</h3>
                 <ul className="space-y-4 mb-8">
                   {[
+                    'AI creates products from your social posts',
+                    'One permanent store link to share everywhere',
                     'Guaranteed payment before shipping',
-                    'No chargebacks or payment ghosting',
-                    'Instant M-Pesa payouts',
-                    'Trusted seller verification badge',
-                    'Sell confidently on any platform'
+                    'Instant M-Pesa payouts with fee transparency',
+                    'No website or coding required'
                   ].map((feature, idx) => (
                     <li key={idx} className="flex gap-4 items-start">
                       <div className="w-6 h-6 bg-green-400 rounded-null-full flex items-center justify-center mt-1 flex-shrink-0 shadow-lg shadow-green-500/50">
@@ -282,24 +285,23 @@ export function HomePage() {
             {/* Conversation Bubbles */}
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">A</div>
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">S</div>
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-null-lg p-4 max-w-xs">
-                  <p className="text-gray-300">"Hey! Interested in these sneakers for KES 14,000?"</p>
+                  <p className="text-gray-300">"Check out my store! 👉 swiftline.com/store/myshop"</p>
                 </div>
               </div>
 
               <div className="flex justify-end items-start gap-4">
                 <div className="bg-gradient-to-r from-green-400 to-emerald-600 rounded-null-lg p-4 max-w-xs text-black font-semibold">
-                  <p>"Yeah! Send me the payment link"</p>
+                  <p>"Nice! I see the sneakers. How do I buy?"</p>
                 </div>
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">B</div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">A</div>
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">S</div>
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-null-lg p-4 max-w-xs">
-                  <p className="text-gray-300">swiftline.com/link/KES14000</p>
-                  <p className="text-xs text-gray-500 mt-2">Your money is safe with SWIFTLINE ✓</p>
+                  <p className="text-gray-300">"Just click 'Buy Now' on the product. No account needed!"</p>
                 </div>
               </div>
 
@@ -308,13 +310,13 @@ export function HomePage() {
                   <div className="w-5 h-5 bg-green-400 rounded-null-full flex items-center justify-center shadow-lg shadow-green-500/50">
                     <Check size={16} className="text-black" />
                   </div>
-                  <span className="text-green-300 font-semibold">Payment Locked in Escrow</span>
+                  <span className="text-green-300 font-semibold">Guest Checkout Complete</span>
                 </div>
-                <p className="text-gray-300 text-sm">KES 14,000 is secure. Seller hasn't received it yet.</p>
+                <p className="text-gray-300 text-sm">KES 14,000 paid via M-Pesa. Funds locked in escrow.</p>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">A</div>
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-null-full flex items-center justify-center text-white font-bold flex-shrink-0">S</div>
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-null-lg p-4 max-w-xs">
                   <p className="text-gray-300">"Shipped! Tracking: #KN4839288"</p>
                 </div>
@@ -332,9 +334,9 @@ export function HomePage() {
                   <div className="w-5 h-5 bg-green-400 rounded-null-full flex items-center justify-center shadow-lg shadow-green-500/50">
                     <Check size={16} className="text-black" />
                   </div>
-                  <span className="text-green-300 font-semibold">Money Released Instantly</span>
+                  <span className="text-green-300 font-semibold">Payment Released to Seller</span>
                 </div>
-                <p className="text-gray-300 text-sm">KES 14,000 + fees sent to seller's M-Pesa in 10 seconds</p>
+                <p className="text-gray-300 text-sm">KES 13,300 (after 5% platform fee) sent to seller's M-Pesa instantly</p>
               </div>
 
               <div className="text-center mt-8">
@@ -349,16 +351,16 @@ export function HomePage() {
       <section className="relative py-32 px-6 bg-gradient-to-b from-transparent via-white/5 to-transparent">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-black mb-6">
-            <span className="text-white">Works </span>
-            <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Everywhere</span>
+            <span className="text-white">AI-Powered </span>
+            <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Store Creation</span>
           </h2>
-          <p className="text-gray-400 text-xl mb-16 max-w-2xl mx-auto">No app download. No website needed. Share a link and you're done.</p>
+          <p className="text-gray-400 text-xl mb-16 max-w-2xl mx-auto">Connect your social pages. AI scans and creates your store automatically. No coding required.</p>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { logo: instagramLogo, name: 'Instagram', desc: 'Link in bio, secure payments on your DMs' },
-              { logo: whatsappLogo, name: 'WhatsApp', desc: 'Copy-paste link directly to buyers' },
-              { logo: facebookLogo, name: 'Facebook Marketplace', desc: 'Verified payment badge for more sales' },
+              { logo: instagramLogo, name: 'Instagram', desc: 'Connect your page. AI extracts products from your posts automatically.' },
+              { logo: facebookLogo, name: 'Facebook', desc: 'Link your page. Products created as drafts for you to review.' },
+              { logo: whatsappLogo, name: 'Share Store Link', desc: 'One permanent link. Share on WhatsApp, Instagram, anywhere.' },
             ].map((platform, idx) => (
               <div key={idx} className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 p-10 rounded-null-2xl hover:border-green-400/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer">
                 <img src={platform.logo} alt={platform.name} className="w-16 h-16 object-contain mb-4 mx-auto" />
